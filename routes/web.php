@@ -1,16 +1,12 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('login');
-});
-Route::get('/login', function () {
-    return view('login');
-});
-Route::get('/register', function () {
-    return view('register');
-});
+Route::get('/', [CustomerController::class, 'login'])->name('login');
+Route::get('/register', [CustomerController::class, 'register'])->name('register');
+Route::post('/register', [CustomerController::class, 'store'])->name('register.submit');
+Route::post('/login', [CustomerController::class, 'loginPost'])->name('login.submit');
 Route::get('/produk', function () {
     return view('produk');
 });

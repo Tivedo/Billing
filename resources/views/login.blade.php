@@ -14,15 +14,16 @@
 <body class="flex items-center justify-center min-h-screen">
     <div class="bg-gray-700 bg-opacity-50 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 class="text-2xl font-bold text-white mb-6 text-center">Masuk</h2>
-        <form>
+        <form action="{{route('login.submit')}}" method="POST">
+            @csrf
             <div class="mb-4">
                 <label class="block text-gray-400 mb-2" for="username">Username</label>
-                <input class="w-full p-3 rounded bg-gray-800 text-white" type="text" id="username">
+                <input class="w-full p-3 rounded bg-gray-800 text-white" type="text" id="username" name="username">
             </div>
             <div class="mb-6 relative">
                 <label class="block text-gray-400 mb-2" for="password">Password</label>
                 <div class="flex items-center">
-                    <input class="w-full p-3 rounded bg-gray-800 text-white" type="password" id="password">
+                    <input class="w-full p-3 rounded bg-gray-800 text-white" type="password" id="password" name="password">
                     <span class="cursor-pointer absolute right-2" id="showHide"></span>
                 </div>
             </div>
