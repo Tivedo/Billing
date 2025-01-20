@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Api\CustomerController as ApiCustomerController;
 use App\Models\customer;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -17,16 +18,21 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
-        customer::create([
-            'nama' => $request->nama,
-            'npwp' => $request->npwp,
-            'email' => $request->email,
-            'username' => $request->username,
-            'password' => password_hash($request->password, PASSWORD_DEFAULT),
-            'telp' => $request->telepon,
+        $request->validate([
+            'nama' => 'required',
+            'npwp' => 'required',
+            'email' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            'telepon' => 'required',
         ]);
-
-        return redirect()->route('login')->with('success', 'Data berhasil disimpan');
+        $response = (new ApiCustomerController())->register($request);
+        $responseData = json_decode($response->getContent(), true);
+        if ($responseData['message'] == 'Register Success') {
+            return redirect()->route('login')->with('success', 'Registrasi berhasil');
+        } else {
+            return redirect()->route('register')->with('error', $responseData['message'] ?? 'Registrasi gagal');
+        }
     }
     public function login()
     {
@@ -39,20 +45,12 @@ class CustomerController extends Controller
             'password' => 'required',
         ]);
     
-        $customer = Customer::where('username', $request->username)->first();
-        if ($customer) {
-            if (password_verify($request->password, $customer->password)) {
-                // Generate JWT token
-                try {
-                    $token = JWTAuth::fromUser($customer);
-                    Session::put('jwt_token', $token);
-                    return redirect()->route('produk');
-                } catch (JWTException $e) {
-                    return response()->json(['error' => 'Could not create token'], 500);
-                }
-            }else{
-                return response()->json(['error' => 'Username atau password salah'], 401);
-            }
+        $response = (new ApiCustomerController())->loginPost($request);
+        $responseData = json_decode($response->getContent(), true);
+        if ($responseData['message'] == 'Login Success') {
+            return redirect()->route('produk')->with('success', 'Login berhasil');
+        } else {
+            return redirect()->route('login')->with('error', $responseData['message'] ?? 'Login gagal');
         }
     
     }

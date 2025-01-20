@@ -35,19 +35,19 @@
 <script>
     const showHide = document.getElementById('showHide');
 
-password.type = 'password';
-showHide.innerHTML = '<i class="fas fa-eye text-gray-400"></i>';
-showHide.style.cursor = 'pointer';
+    password.type = 'password';
+    showHide.innerHTML = '<i class="fas fa-eye text-gray-400"></i>';
+    showHide.style.cursor = 'pointer';
 
-showHide.addEventListener('click', () => {
-    if (password.type === 'password') {
-        password.type = 'text'; // ubah type menjadi text
-        showHide.innerHTML =
-            '<i class="fas fa-eye-slash text-gray-400"></i>'; // ubah icon menjadi eye slash
-    } else {
-        showHide.innerHTML = '<i class="fas fa-eye text-gray-400"></i>'; // ubah icon menjadi eye
-        password.type = 'password'; // ubah type menjadi password
-    }
-});
+    showHide.addEventListener('click', () => {
+        if (password.type === 'password') {
+            password.type = 'text'; // ubah type menjadi text
+            showHide.innerHTML =
+                '<i class="fas fa-eye-slash text-gray-400"></i>'; // ubah icon menjadi eye slash
+        } else {
+            showHide.innerHTML = '<i class="fas fa-eye text-gray-400"></i>'; // ubah icon menjadi eye
+            password.type = 'password'; // ubah type menjadi password
+        }
+    });
 </script>
 </html>

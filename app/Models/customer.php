@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Model;
 
-class customer extends Authenticatable implements JWTSubject
+class Customer extends Authenticatable implements JWTSubject
 {
     protected $table = 'customer';
     public $timestamps = false;
