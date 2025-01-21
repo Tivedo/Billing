@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -15,7 +16,7 @@ class ProdukController extends Controller
     public function detail($id)
     {
         $produk = Produk::find($id);
-        dd($produk);
-        return view('detail-produk', ['produk' => $produk]);
+        $layanan = Layanan::where('produk_id', $id)->get();
+        return view('detail-produk', ['produk' => $produk, 'layanan' => $layanan]);
     }
 }

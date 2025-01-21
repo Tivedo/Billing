@@ -27,7 +27,7 @@
     <hr class="border border-gray-300 w-full my-5"/>
     <div class="flex flex-col md:flex-row items-center">
     @foreach ($produk as $value)
-      <div class="w-full md:w-1/3 p-4 cursor-pointer" onclick="window.location='{{ route('produk.show', $value->id) }}'">
+      <div class="w-full md:w-1/3 p-4 cursor-pointer" onclick="window.location='{{ route('produk.detail', $value->id) }}'">
        <img alt="Image of a fixed site device" class="" height="200" src="{{ $value->image }}" width="300"/>
        <h3 class="text-xl text-gray-100 font-bold mt-4">
         {{ $value->nama }}

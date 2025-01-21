@@ -4,14 +4,14 @@
    
 </style>
 @section('content')
-     <div class="container mx-auto p-4 flex flex-col lg:flex-row items-start lg:items-center justify-between">
+     <div class="container mx-auto p-4 flex flex-col lg:flex-row items-start lg:items-center justify-between h-screen">
       <div class="flex flex-col lg:flex-row items-start lg:items-center">
        <img alt="Satellite dish on a stand" class="w-full lg:w-1/3" height="300" src="https://firebasestorage.googleapis.com/v0/b/image-211fd.appspot.com/o/get-image.png?alt=media&token=001cd25e-45c7-4098-b525-1e08b872b407" width="400"/>
        <div class="mt-4 lg:mt-0 lg:ml-8">
         <h1 class="text-3xl text-gray-100 font-bold">
          Fixed Site
         </h1>
-        <div class="mt-4">
+        {{-- <div class="mt-4">
          <h2 class="text-xl text-gray-100 font-semibold">
           Pilih Perangkat
          </h2>
@@ -33,44 +33,22 @@
            </p>
           </div>
          </div>
-        </div>
+        </div> --}}
         <div class="mt-4">
          <h2 class="text-xl text-gray-100 font-semibold">
           Pilih Layanan
          </h2>
          <div class="flex flex-wrap gap-4 mt-2">
+          @foreach ($layanan as $value)
           <div class="bg-gray-800 p-4 rounded-lg">
            <p class="text-gray-100">
-            Data Plan 40GB
+            {{ $value->nama }}
            </p>
            <p class="text-gray-100">
-            IDR 990.991/bln
+            IDR {{ $value->harga }}/bln
            </p>
           </div>
-          <div class="bg-gray-800 p-4 rounded-lg">
-           <p class="text-gray-100">
-            Data Plan 1TB
-           </p>
-           <p class="text-gray-100">
-            IDR 2.725.225/bln
-           </p>
-          </div>
-          <div class="bg-gray-800 p-4 rounded-lg">
-           <p class="text-gray-100">
-            Data Plan 2TB
-           </p>
-           <p class="text-gray-100">
-            IDR 5.509.910/bln
-           </p>
-          </div>
-          <div class="bg-gray-800 p-4 rounded-lg">
-           <p class="text-gray-100">
-            Data Plan 6TB
-           </p>
-           <p class="text-gray-100">
-            IDR 11.099.099/bln
-           </p>
-          </div>
+          @endforeach
          </div>
          <p class="text-sm text-gray-100 mt-2">
           *periode berlangganan 12 bulan dan akan ditagihkan setiap bulan
