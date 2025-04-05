@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ProdukController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\BillingController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', [CustomerController::class, 'login'])->name('login');
 Route::get('/register', [CustomerController::class, 'register'])->name('register');
@@ -10,6 +12,15 @@ Route::post('/register', [CustomerController::class, 'store'])->name('register.s
 Route::post('/login', [CustomerController::class, 'loginPost'])->name('login.submit');
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk');
 Route::get('/produk/{id}', [ProdukController::class, 'detail'])->name('produk.detail');
+Route::get('/billing', [BillingController::class, 'index'])->name('billing');
+Route::get('file/dowload-invoice', [BillingController::class, 'downloadInvoice'])->name('download.invoice');
+Route::get('/file/download-tanda-terima', [BillingController::class, 'downloadTandaTerima'])->name('download.tanda.terima');
+Route::post('/upload-bukti-ppn', [BillingController::class, 'uploadBuktiPpn'])->name('upload.bukti.ppn');
+Route::post('/upload-bukti-pph', [BillingController::class, 'uploadBuktiPph'])->name('upload.bukti.pph');
+Route::get('/bayar/{id}', [PaymentController::class, 'create'])->name('pilih.metode.pembayaran.recurring');
+Route::post('/payment-callback', [PaymentController::class, 'getTrxStatus']);
+Route::get('/payment-success', [PaymentController::class, 'success'])->name('payment.success');
+Route::post('/payment-notification', [PaymentController::class, 'midtransNotification'])->name('payment.notification');
 // Route::get('/produk/detail', function () {
 //     return view('detail-produk');
 // });

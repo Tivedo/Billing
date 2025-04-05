@@ -48,7 +48,7 @@ class CustomerController extends Controller
         $response = (new ApiCustomerController())->loginPost($request);
         $responseData = json_decode($response->getContent(), true);
         if ($responseData['message'] == 'Login Success') {
-            return redirect()->route('produk')->with('success', 'Login berhasil');
+            return redirect()->route('billing')->with('success', 'Login berhasil');
         } else {
             return redirect()->route('login')->with('error', $responseData['message'] ?? 'Login gagal');
         }
