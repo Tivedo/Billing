@@ -33,15 +33,15 @@ class BillingController extends Controller
             'snap_token' => false
         ]);
     }
-    public function uploadBuktiPpn(Request $request)
+    public function uploadBuktiPph(Request $request)
     {
         $request->validate([
-            'ppn' => 'required|mimes:jpg,jpeg,png,pdf|max:2048',
+            'pph' => 'required|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
         // Simpan file ke dalam storage
-        if ($request->file('ppn')) {
-            $filePath = $request->file('ppn')->store('uploads', 'public');
+        if ($request->file('pph')) {
+            $filePath = $request->file('pph')->store('uploads', 'public');
         }
         // simpan url file ke dalam database
         $invoice = Invoice::find($request->id);

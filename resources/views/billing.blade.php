@@ -89,52 +89,39 @@
     }
 </style>
 <div class="top-notif-wrapper flex w-full gap-5" style="padding-top: 15vh !important;">
-    {{-- <div class="d-flex p-3 w-100" style="background-color: #242134;border-radius: 10px">
-        <div class="d-flex gap-5 w-100 justify-content-between align-items-center">
-            <div class="d-flex flex-column">
-                <span class="text-white">Tagihan Terdekat</span>
-                <span style="font-size: 20pt" class="text-white mt-1"><strong>IDR17,000,000</strong></span>
-            </div>
-            <button class="btn btn-primary m-0" style="background-color: #3399FE;border-radius: 10px;height: 80%;">Bayar
-                Sekarang</button>
-        </div>
-    </div> --}}
-    <div class="flex p-3 w-full" style="background-color: #242134;border-radius: 10px">
+    <div class="flex p-3 w-full bg-[#F9FBFD]" style="border-radius: 10px">
         <div class="flex gap-5 w-full justify-between items-center">
             <div class="flex flex-col">
-                <span class="text-white title-deposit">Total Deposit Aktif</span>
-                <span style="font-size: 20pt" class="text-white title-harga"><strong>IDR{{ number_format(($jumlahDepositAktif ?? 0), 0, ',', '.') }}</strong></span>
+                <span class="text-[#1E3A8A] title-deposit">Total Deposit Aktif</span>
+                <span style="font-size: 20pt" class="text-[#1E3A8A] title-harga"><strong>IDR{{ number_format(($jumlahDepositAktif ?? 0), 0, ',', '.') }}</strong></span>
             </div>
-            <button id="btnDepoAktif" class="bg-transparent border border-[#8158F4] px-4 py-2 rounded-lg title-deposit"
-                style="border: 1px solid#8158F4;border-radius: 10px;color: #8158F4;height: 80%;">Lihat Rincian
+            <button id="btnDepoAktif" class="border border-[#3B82F6]  text-[#3B82F6] px-4 py-2 rounded-lg"
+                style="border-radius: 10px;height: 80%;">Lihat Rincian
                 <i class="bi bi-eye-fill ps-1"></i>
             </button>
         </div>
     </div>
-    <div class="flex p-3 w-full" style="background-color: #242134; border-radius: 10px">
+    <div class="flex p-3 w-full bg-[#F9FBFD]" style="; border-radius: 10px">
         <div class="flex gap-5 w-full justify-between items-center">
             <div class="flex flex-col">
-                <span class="text-white title-deposit">Total Deposit Terpakai</span>
-                <span style="font-size: 20pt" class="text-white title-harga"><strong>IDR{{ number_format(($jumlahDepositTerpakai ?? 0), 0, ',', '.') }}</strong></span>
+                <span class="text-[#1E3A8A] title-deposit">Total Deposit Terpakai</span>
+                <span style="font-size: 20pt" class="text-[#1E3A8A] title-harga"><strong>IDR{{ number_format(($jumlahDepositTerpakai ?? 0), 0, ',', '.') }}</strong></span>
             </div>
-            <button class="bg-transparent border border-[#8158F4] px-4 py-2 rounded-lg title-deposit"
-                style="border: 1px solid#8158F4;border-radius: 10px;color: #8158F4;height: 80%"
+            <button class="border border-[#3B82F6]  text-[#3B82F6] px-4 py-2 rounded-lg"
+                style="border-radius: 10px;height: 80%"
                 id="btnDepoTerpakai">Lihat Rincian
                 <i class="bi bi-eye-fill ps-1"></i>
             </button>
         </div>
     </div>
 </div>
-<div class="container-table p-3 my-3 mb-5" style="background-color: #242134;border-radius: 10px;margin-top: 20px">
-    <span class="text-white"><strong>Tabel Billing</strong></span>
+<div class="container-table p-3 my-3 mb-5 bg-[#F9FBFD]" style="border-radius: 10px;margin-top: 20px">
+    <span class="text-[#1E3A8A]"><strong>Tabel Billing</strong></span>
     <div class="flex gap-3 justify-between">
         <input type="text" id="customSearchBox" 
-               class="w-full md:w-1/4 bg-[#242134] border border-[#939393] text-white rounded-lg px-4 py-2 mt-3" 
+               class="w-full md:w-1/4 bg-white border border-[#C7D2FE] text-[#1E3A8A] rounded-lg px-4 py-2 mt-3 focus:ring-2 focus:ring-[#3B82F6]" 
                placeholder="Cari">
         <div class="flex gap-2">
-            <a href="/export-billing" class="mt-3 border border-white rounded-lg p-2 flex items-center justify-center h-10 w-10">
-                <img src="{{ URL::asset('/assets/image/excel-icon.png') }}" class="w-6 h-6" alt="">
-            </a>
             <button class="btn bg-transparent mt-3" id="btnFilter"
                 style="border-radius: 10px;border:1px solid white;width: 42px;height: 42px;">
                 <i class="bi bi-funnel-fill text-white"></i>
@@ -142,8 +129,8 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table id="billingTable" class="text-white w-100 mt-3 ">
-            <thead style="color: #939393">
+        <table id="billingTable" class="text-[#1E3A8A] w-100 mt-5 ">
+            <thead class="font-semibold bg-[#F9FBFD]">
                 <tr>
                     <th style="font-weight: 500">ID Order</th>
                     <th class="text-left" style="font-weight: 500">SID</th>
@@ -180,14 +167,20 @@
                     </td>
                     <td>{{ $d['type'] }}</td>
                     <td class="flex justify-end w-full">
-                        @if($d['status'] == "PAID")
-                        <button class="btn btn-primary m-3 ms-0 border-0"
-                            style="background-color: #263D51;border-radius: 10px" disabled>Bayar Sekarang</button>
-                        @elseif($d['status'] != "PAID")
-                        <a class="bg-[#3399FE] text-white font-medium py-2 px-4 rounded-lg m-3 ms-0 shadow-md hover:bg-blue-600 transition"
-                            href="{{ route('pilih.metode.pembayaran.recurring', ['id' => $d['id']]) }}">
+                        @if($d['status'] == "paid")
+                        <button class="bg-[#3399FE] text-white font-medium py-2 px-4 rounded-lg m-3 ms-0 shadow-md hover:bg-blue-600 transition w-max opacity-50 cursor-not-allowed"
+                            href="{{ route('pilih.metode.pembayaran.recurring', ['id' => $d['id']]) }}" disabled>
                             Bayar Sekarang
-                        </a>
+                        </button>
+                        @elseif($d['status'] != "paid")
+                        <form action="{{ route('pilih.metode.pembayaran.recurring') }}" method="POST" class="inline">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $d['id'] }}">
+                            <button type="submit"
+                                class="bg-[#3399FE] text-white font-medium py-2 px-4 rounded-lg m-3 ms-0 shadow-md hover:bg-blue-600 transition w-max">
+                                Bayar Sekarang
+                            </button>
+                        </form>
                         @else
                         <a class="bg-[#3399FE] text-white font-medium py-2 px-4 rounded-lg m-3 ms-0 shadow-md hover:bg-blue-600 transition"
                             href="{{ route('pilih.metode.pembayaran.recurring', ['id' => $d['id']]) }}">
@@ -195,24 +188,24 @@
                         </a>
                         @endif
                         <button class="border-0 bg-transparent toggle-details">
-                            <i class="bi bi-chevron-down text-white" style="font-weight: 800;font-size: x-large"></i>
+                            <i class="bi bi-chevron-down text-[#1E3A8A]" style="font-weight: 800;font-size: x-large"></i>
                         </button>
                     </td>
                 </tr>
                 <tr class="detail-row" style="display: none">
                     <td colspan="8">
-                        <div class="p-3 mb-2" style="background: rgba(255, 255, 255, 0.10);border-radius: 10px">
+                        <div class="p-3 mb-2 bg-[#EDF2F7] shadow-inner" style=";border-radius: 10px">
                             <table class="table-deskripsi" style="width: 100%;border:none; padding-right: 0px; margin-right: 0px;">
                                 <thead>
                                     <tr>
-                                        <th class="text-white" style="width: 20%; font-weight: 600;">Tanggal Invoice</th>
-                                        <th class="text-white" style="width: 20%; font-weight: 600;">Node</th>
-                                        <th class="text-white" style="width: 20%; font-weight: 600;">Faktur Pajak</th>
+                                        <th class="text-[#1E3A8A] font-semibold" style="width: 20%; font-weight: 600;">Tanggal Invoice</th>
+                                        <th class="text-[#1E3A8A] font-semibold" style="width: 20%; font-weight: 600;">Node</th>
+                                        <th class="text-[#1E3A8A] font-semibold" style="width: 20%; font-weight: 600;">Faktur Pajak</th>
                                         @if ($d['status_perusahaan'] == 1)
-                                            <th class="text-white" style="width: 20%;  font-weight: 600;">Bukti Potong PPh 23</th>
+                                            <th class="text-[#1E3A8A] font-semibold" style="width: 20%;  font-weight: 600;">Bukti Potong PPh 23</th>
                                         @elseif($d['status_perusahaan'] == 2)
                                         @else
-                                            <th class="text-white" style="width: 20%;  font-weight: 600;">Bukti Potong PPh 23</th>
+                                            <th class="text-[#1E3A8A] font-semibold" style="width: 20%;  font-weight: 600;">Bukti Potong PPh 23</th>
                                         @endif
                                         {{-- @if($d['status'] != "PAID" && $d['auto_debit'] == 1)
                                             <th style="width: 20%;  font-weight: 600; color: #FD6464; font-size: 12px;"><div class="d-flex align-items-center" style="color: #FD6464; font-size: 12px;">
@@ -225,14 +218,13 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-white">{{ $d['tgl_invoice'] }}</td>
-                                        <td class="text-white">{{ $d['nama'] }}</td>
+                                        <td class="text-[#475569]">{{ $d['tgl_invoice'] }}</td>
+                                        <td class="text-[#475569]">{{ $d['nama'] }}</td>
                                         <td>
-                                            tes
+                                         <a href="" class="text-blue-500 underline cursor-pointer">Lihat</a>
                                         </td>
                                         <td>
                                             @if ($d['status_perusahaan'] == '1')
-                                                {{-- @if($d['type'] == 'OTC')   --}}
                                                 @if ($d['url_bukti_potong_pph'] == null)
                                                 <button class="bg-[#3399FE] text-white font-medium py-2 px-5 rounded-lg shadow-md hover:bg-blue-600 transition flex items-center btn-pph"
                                                     data-id="{{ $d['id'] }}" 
@@ -245,7 +237,6 @@
                                                 @endif
                                             @elseif($d['status_perusahaan'] == '2')
                                             @else
-                                                {{-- @if($d['type'] == 'OTC')   --}}
                                                 @if ($d['url_bukti_potong_pph'] == null)
                                                 <button class="bg-[#3399FE] text-white font-medium py-2 px-5 rounded-lg shadow-md hover:bg-blue-600 transition flex items-center gap-2 btn-pph"
                                                     data-id="{{ $d['id'] }}" 
@@ -259,11 +250,6 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{-- @if($d['status'] != "PAID" && $d['auto_debit'] == 1)
-                                                <a href="{{ route('bayar-recurring', ['id' => $d['id_invoice']]) }}" style="font-weight: 600; color: #3399FE; font-size: 16px; margin-left: 30px; text-decoration: underline; ">
-                                                    Perbarui Kartu Kredit
-                                                </a>
-                                            @endif --}}
                                         </td>
                                         
                                     </tr>
@@ -272,9 +258,9 @@
                             <table class="table-deskripsi" style="width: 100%; padding-right: 0px; margin-right: 0px;">
                                 <thead>
                                     <tr>
-                                        <th class="text-white" style="width: 20%;  font-weight: 600;">Nomor Invoice</th>
-                                        <th class="text-white" style="width: 20%; font-weight: 600;">Alamat Layanan</th>
-                                        <th class="text-white" style="width: 20%; font-weight: 600;">Invoice</th>
+                                        <th class="text-[#1E3A8A] font-semibold" style="width: 20%;  font-weight: 600;">Nomor Invoice</th>
+                                        <th class="text-[#1E3A8A] font-semibold" style="width: 20%; font-weight: 600;">Alamat Layanan</th>
+                                        <th class="text-[#1E3A8A] font-semibold" style="width: 20%; font-weight: 600;">Invoice</th>
                                         @if($d['status'] != "PAID")
                                             <th class="text-white" style="width: 20%;  font-weight: 600; color: #FD6464; font-size: 12px;"></th>
                                         @endif
@@ -282,9 +268,9 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-white">{{ $d['nomor'] }}</td>
-                                        <td class="text-white">{{ $d['alamat'] }}</td>
-                                        <td colspan="2" class="text-white">
+                                        <td class="text-[#475569]">{{ $d['nomor'] }}</td>
+                                        <td class="text-[#475569]">{{ $d['alamat'] }}</td>
+                                        <td colspan="2" class="text-[#475569]">
                                             @if ($d['url_invoice'] == null && $d['url_tanda_terima'] == null)
                                             Invoice belum tersedia
                                             @elseif ($d['url_tanda_terima'] != null)
@@ -304,9 +290,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{-- @if($d['status'] != "PAID" && $d['auto_debit'] == 1)
-                                                <span style="font-weight: 600; color: #FD6464; font-size: 12px;"></span>
-                                            @endif --}}
+                                            
                                         </td>
                                     </tr>
                                 </tbody>
@@ -330,7 +314,7 @@
                         <span style="color: #8CC243">Lunas</span>
                         @elseif($d['url_bukti_potong_pph'] == null && $d['status_perusahaan'] == '3')
                         <span style="color: #FD6464">Belum Lunas</span>
-                        @elseif($d['url_bukti_potong_pph'] == null && $d['status_perusahaan'] == '1' && $d['url_bukti_potong_ppn'] == null)
+                        @elseif($d['url_bukti_potong_pph'] == null && $d['status_perusahaan'] == '1')
                         <span style="color: #FD6464">Belum Lunas</span>
                         @else
                         <span style="color: #8CC243">Lunas</span>
@@ -342,8 +326,6 @@
                 @endforeach
             </tbody>
         </table>
-        {{ $snap_token }}
-
     </div>
 </div>
 <div class="fixed inset-0 flex items-start justify-center mt-5 z-50 hidden" id="depoAktif" tabindex="-1" role="dialog">
@@ -396,52 +378,7 @@
     </div>
 </div>
 
-{{-- <div class="modal mt-5" id="filterModal" style="border-radius: 10px" tabindex="-1" role="dialog">
-    <div class="modal-dialog" style="width: 32vw;max-width: unset;" role="document">
-        <div class="modal-content p-2" style="border-radius: 10px;background-color: #242134">
-            <div class="modal-body">
-                <h4 class="text-white mt-2 mb-2" style="font-weight: 700">Filter</h4>
-                <div class="filter-options">
-                    <span class="text-white" style="font-weight: 600">Status Pembayaran</span>
-                    <div class="radio-group mt-1 mb-3">
-                        <label>
-                            <input type="radio" id="unpaid" name="status" value="Belum Dibayar">
-                            <span style="font-weight: 300">Belum Dibayar</span>
-                        </label>
-                        <label>
-                            <input type="radio" id="unpaid" name="status" value="Dibayar">
-                            <span style="font-weight: 300">Dibayar</span>
-                        </label>
-                    </div>
-                    <span class="text-white" style="font-weight: 600">Status Pelunasan</span>
-                    <div class="radio-group mt-1 mb-3">
-                        <label>
-                            <input type="radio" id="unpaid" name="status_pelunasan" value="Belum Lunas">
-                            <span style="font-weight: 300">Belum Lunas</span>
-                        </label>
-                        <label>
-                            <input type="radio" id="unpaid" name="status_pelunasan" value="Lunas">
-                            <span style="font-weight: 300">Lunas</span>
-                        </label>
-                    </div>
-                    <span class="text-white" style="font-weight: 600">Node</span>
-                    <div class="radio-group mt-1">
-                        @foreach ($node as $d)
-                        <label for="">
-                            <input type="checkbox" id="node1" name="node" value="{{ $d['nama'] }}">
-                            <span style="font-weight: 300" for="node1">{{ $d['nama'] }}</span>
-                        </label>
-                        @endforeach
-                    </div>
-                    <button class="btn btn-secondary text-white w-100 mt-4" style="border:none; border-radius: 10px;" id="resetFilter">Reset Filter</button>
-                    <button class="btn btn-info text-white w-100 mt-2"
-                        style="background-color: #8158F4;border:none; border-radius: 10px;" id="applyFilter">Terapkan
-                        Filter</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
+
 <div class="fixed inset-0 flex items-center justify-center z-50 hidden" id="uploadPphModal" tabindex="-1" role="dialog">
     <div class="w-[32vw] max-w-none bg-[#242134] rounded-2xl shadow-lg p-6">
         <div class="w-full flex justify-end">
@@ -472,59 +409,24 @@
     </div>
 </div>
 
-<div class="fixed inset-0 flex items-center justify-center z-50 hidden" id="uploadPpnModal" tabindex="-1" role="dialog">
-    <div class="w-[32vw] max-w-none bg-[#242134] rounded-2xl shadow-lg p-6">
-        <div class="w-full flex justify-end">
-            <button id="closeUploadPpnModal" class="text-white text-xl hover:text-gray-400">
-                &times;
-            </button>
-        </div>
-        <h5 class="text-white text-lg font-semibold text-center mt-2 mb-4">
-            Bukti SSP Wapu PPN
-        </h5>
-        <form action="{{ route('upload.bukti.ppn') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mt-3 relative">
-                <input type="file" class="absolute inset-0 w-full h-[8vh] opacity-0 cursor-pointer" 
-                    id="uploadPpnFile" name="ppn" accept=".jpg,.jpeg,.png,.pdf" required>
-                <button type="button" class="border border-dashed border-gray-500 text-gray-500 bg-transparent py-3 w-full flex items-center justify-center gap-2"
-                    id="uploadPpnButton">
-                    <i class="bi bi-file-earmark-arrow-up-fill"></i>
-                    Upload Bukti Potong SSP WAPU PPN
-                </button>
-            </div>
-            <label class="text-white block mt-2" id="countingppn"></label>
-            <input type="hidden" name="id" id="idOrder" value="">
-            <button type="submit" class="bg-[#8158F4] text-white w-full py-2 mt-4 rounded-lg">
-                Submit
-                
-            </button>
-        </form>
-    </div>
-</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-scNhgP-5noD4Cx7M"></script>
 @if ($snap_token != null)
 <script>
     window.snap.pay('{{ $snap_token }}', 
         {
             onSuccess: function(result) {
-                /* You may add your own implementation here */
-                console.log(result);
-                alert("payment success!");
+                toastr.success('Payment success!');
             },
             onPending: function(result) {
-                /* You may add your own implementation here */
-                console.log(result);
-                alert("wating your payment!");
+                toastr.warning('Waiting for your payment!');
             },
             onError: function(result) {
-                /* You may add your own implementation here */
-                console.log(result);
-                alert("payment failed.");
+                toastr.error('Payment failed!');
             },
             onClose: function() {
-                /* You may add your own implementation here */
-                alert('you closed the popup without finishing the payment');
+                toastr.error('You closed the popup without finishing the payment!');
             }
         }
     );
@@ -536,8 +438,7 @@
 
         });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     document.getElementById('uploadPpnFile').addEventListener('change', function(event) {
             var fileName = event.target.files[0].name;
@@ -603,30 +504,6 @@
             document.getElementById("uploadPphModal").classList.add('hidden');
         });
 
-        // Handle PPn and PPh modals
-        $(document).on('click', '.btn-ppn', function() {
-            var id = $(this).data('id');
-            // var countingppn = $(this).data('countingppn');
-            // if(countingppn == null){
-            //     countingppn = 0;
-            // }
-            // countingppn = 3 - countingppn;
-            $("#idOrder").val(id);
-            // $("#countingppn").text("Anda mempunyai batas untuk mengupload bukti potong PPN sebanyak " +countingppn + " kali");
-            document.getElementById("uploadPpnModal").classList.remove('hidden');
-        });
-        $(document).on('click', '.edit-btn-ppn', function() {
-            var id = $(this).data('id');
-            // var countingppn = $(this).data('countingppn');
-            // if(countingppn == null){
-            //     countingppn = 0;
-            // }
-            // countingppn = 3 - countingppn;
-            $("#idOrder").val(id);
-            // $("#countingppn").text("Anda mempunyai batas untuk mengupload bukti potong PPN sebanyak " +countingppn + " kali");
-            document.getElementById("uploadPpnModal").classList.remove('hidden');
-
-        });
         $(document).on('click', '.btn-pph', function() {
             var id = $(this).data('id');
             var countingpph = $(this).data('countingpph');
@@ -635,7 +512,6 @@
             }
             countingpph = 3 - countingpph;
             $("#idOrderPph").val(id);
-            $("#countingpph").text("Anda mempunyai batas untuk mengupload bukti potong PPH 23 sebanyak "+countingpph+" kali");
             document.getElementById("uploadPphModal").classList.remove('hidden');
 
         });

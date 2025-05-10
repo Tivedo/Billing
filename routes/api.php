@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BillingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CustomerController;
@@ -12,3 +13,4 @@ Route::get('/user', function (Request $request) {
 Route::post('/login', [CustomerController::class, 'loginPost']);
 Route::post('/register', [CustomerController::class, 'register']);
 Route::post('/payment-notification', [PaymentController::class, 'midtransNotification']);
+Route::get('/tes', [BillingController::class, 'generateInvoice']);

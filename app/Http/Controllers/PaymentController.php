@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Session;
 class PaymentController extends Controller
 {
 
-    public function create($id) {
+    public function create(Request $request) {
 
+        $id = $request->input('id');
         $paymentParam = $this->createPaymentParam($id);
         Log::info('Payment Param: ', $paymentParam);
         $tokenSnap = (new MidtransService())->createSnapToken($paymentParam);
@@ -45,11 +46,12 @@ class PaymentController extends Controller
 
     private function createPaymentParam($id) {
         
-        $invoice = Invoice::join('invoice_item', 'invoice.id', '=', 'invoice_item.invoice_id')
-            ->join('layanan', 'invoice_item.layanan_id', '=', 'layanan.id')
-            ->join('order', 'invoice.order_id', '=', 'order.id')
-            ->join('customer', 'order.customer_id', '=', 'customer.id')
-            ->select('invoice.id', 'layanan.nama as namaproduk', 'invoice_item.nilai_bayar as harga', 'customer.nama as namacustomer', 'customer.email', 'customer.telp', 'customer.alamat as address')
+        $invoice = Invoice::leftJoin('invoice_item', 'invoice.id', '=', 'invoice_item.invoice_id')
+            ->leftJoin('layanan', 'invoice_item.layanan_id', '=', 'layanan.id')
+            ->leftJoin('produk', 'invoice_item.produk_id', '=', 'produk.id')
+            ->leftJoin('order', 'invoice.order_id', '=', 'order.id')
+            ->leftJoin('customer', 'order.customer_id', '=', 'customer.id')
+            ->select('invoice.id', 'layanan.nama as namaLayanan', 'produk.nama as namaProduk', 'invoice_item.nilai_bayar as harga', 'customer.nama as namacustomer', 'customer.email', 'customer.telp', 'customer.alamat as address')
             ->where('invoice.id', $id)
             ->first();
         $item = [
@@ -57,7 +59,7 @@ class PaymentController extends Controller
                 'id' => $invoice->id,
                 'price' => $invoice->harga,
                 'quantity' => 1,
-                'name' => $invoice->namaproduk,
+                'name' => $invoice->namaProduk ?? $invoice->namaLayanan,
             ]
         ];    
         

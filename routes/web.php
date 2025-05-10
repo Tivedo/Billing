@@ -17,7 +17,7 @@ Route::get('file/dowload-invoice', [BillingController::class, 'downloadInvoice']
 Route::get('/file/download-tanda-terima', [BillingController::class, 'downloadTandaTerima'])->name('download.tanda.terima');
 Route::post('/upload-bukti-ppn', [BillingController::class, 'uploadBuktiPpn'])->name('upload.bukti.ppn');
 Route::post('/upload-bukti-pph', [BillingController::class, 'uploadBuktiPph'])->name('upload.bukti.pph');
-Route::get('/bayar/{id}', [PaymentController::class, 'create'])->name('pilih.metode.pembayaran.recurring');
+Route::post('/bayar', [PaymentController::class, 'create'])->name('pilih.metode.pembayaran.recurring');
 Route::post('/payment-callback', [PaymentController::class, 'getTrxStatus']);
 Route::get('/payment-success', [PaymentController::class, 'success'])->name('payment.success');
 Route::post('/payment-notification', [PaymentController::class, 'midtransNotification'])->name('payment.notification');
