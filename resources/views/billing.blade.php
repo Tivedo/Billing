@@ -151,18 +151,18 @@
                     <td>Rp{{ number_format($d['jumlah'], 0, ',', '.') }}</td>
                     <td>
                         @if($d['status'] == "paid")
-                        <span style="color: #8CC243">Dibayar</span>
+                        <span class="text-green-500">Dibayar</span>
                         @else
                         <span style="color: #FD6464">Belum Dibayar</span>
                         @endif
                     </td>
                     <td>
                         @if($d['status_perusahaan'] == '2')
-                        <span style="color: #8CC243">Sudah</span>
+                        <span class="text-green-500">Sudah</span>
                         @elseif($d['url_bukti_potong_pph'] == null)
                         <span style="color: #FD6464">Belum</span>
                         @else
-                        <span style="color: #8CC243">Sudah</span>
+                        <span class="text-green-500">Sudah</span>
                         @endif
                     </td>
                     <td>{{ $d['type'] }}</td>
@@ -220,8 +220,24 @@
                                     <tr>
                                         <td class="text-[#475569]">{{ $d['tgl_invoice'] }}</td>
                                         <td class="text-[#475569]">{{ $d['nama'] }}</td>
-                                        <td>
-                                         <a href="" class="text-blue-500 underline cursor-pointer">Lihat</a>
+                                        <td class="text-[#475569]">
+                                            @if ($d['url_faktur'] == null)
+                                            Faktur belum tersedia
+                                            @elseif ($d['url_faktur'] != null)
+                                            <a href="{{ route('download.tanda.terima', ['filename' => $d['url_faktur']]) }}"
+                                                class="btn btn-primary ps-5 pe-5"
+                                                style="border: none;border-radius: 10px;background-color: #8158F4">
+                                                <i class="bi bi-download me-2 "></i>
+                                                Unduh File
+                                            </a>
+                                            @else
+                                            <a href="{{ ENV('APP_URL').'/faktur/'.$d['url_faktur'] }}"
+                                                class="bg-[#3399FE] text-white font-medium py-2 px-5 rounded-lg shadow-md hover:bg-blue-600 transition flex items-center gap-2 w-fit"
+                                                style="border: none;border-radius: 10px;background-color: #8158F4" target="_blank">
+                                                <i class="bi bi-download me-2 "></i>
+                                                Lihat File
+                                            </a>
+                                            @endif
                                         </td>
                                         <td>
                                             @if ($d['status_perusahaan'] == '1')
@@ -281,11 +297,11 @@
                                                 Unduh File
                                             </a>
                                             @else
-                                            <a href="{{ route('download.invoice', ['filename' => $d['url_invoice']]) }}"
-                                                class="btn btn-primary ps-5 pe-5"
-                                                style="border: none;border-radius: 10px;background-color: #8158F4">
+                                            <a href="{{ ENV('APP_URL').'/invoice/'.$d['url_invoice'] }}"
+                                                class="bg-[#3399FE] text-white font-medium py-2 px-5 rounded-lg shadow-md hover:bg-blue-600 transition flex items-center gap-2 w-fit"
+                                                style="border: none;border-radius: 10px;background-color: #8158F4" target="_blank">
                                                 <i class="bi bi-download me-2 "></i>
-                                                Unduh File
+                                                Lihat File
                                             </a>
                                             @endif
                                         </td>
@@ -329,18 +345,18 @@
     </div>
 </div>
 <div class="fixed inset-0 flex items-start justify-center mt-5 z-50 hidden" id="depoAktif" tabindex="-1" role="dialog">
-    <div class="w-[35vw] max-w-none bg-[#242134] rounded-lg shadow-lg p-4">
-        <h4 class="text-center text-white my-3 text-lg font-medium">
+    <div class="w-[35vw] max-w-none bg-[#F9FAFB] rounded-lg shadow-lg p-4">
+        <h4 class="text-center text-[#374151] my-3 text-lg font-medium">
             Rincian Deposit Aktif
         </h4>
         <div class="flex flex-col p-2">
             @foreach ($depositAktif as $da)
-            <div class="flex justify-between p-2 mb-3 border border-white rounded-lg">
+            <div class="flex justify-between p-2 mb-3 border border-[#D1D5DB] rounded-lg">
                 <div class="flex flex-col">
                     <span class="text-gray-400 font-bold">Nomor {{ $da['nomor'] }}</span>
-                    <span class="text-white mt-1 font-bold">IDR{{ number_format($da['jumlah'], 0, ',', '.') }}</span>
+                    <span class="text-[#374151] mt-1 font-bold">IDR{{ number_format($da['jumlah'], 0, ',', '.') }}</span>
                 </div>
-                <span class="text-white text-xs self-center">
+                <span class="text-[#374151] text-xs self-center">
                     <small>Diperbaharui pada {{ \Carbon\Carbon::parse($da['tgl'])->translatedFormat('j F Y') }}</small>
                 </span>
             </div>
@@ -353,19 +369,19 @@
 </div>
 
 <div class="fixed inset-0 flex items-start justify-center mt-5 z-50 hidden" id="depoTerpakai" tabindex="-1" role="dialog">
-    <div class="w-[35vw] max-w-none bg-[#242134] rounded-lg shadow-lg">
+    <div class="w-[35vw] max-w-none bg-[#F9FAFB] rounded-lg shadow-lg">
         <div class="p-4">
-            <h4 class="text-center text-white my-3 text-lg font-medium">
+            <h4 class="text-center text-[#374151] my-3 text-lg font-medium">
                 Rincian Deposit Terpakai
             </h4>
             <div class="flex flex-col p-2">
                 @foreach ($depositTerpakai as $dt)
-                <div class="flex justify-between p-2 mt-2 border border-white rounded-lg">
+                <div class="flex justify-between p-2 mt-2 border border-[#D1D5DB] rounded-lg">
                     <div class="flex flex-col">
                         <span class="text-gray-400 font-bold">SID {{ $dt['sid_tsat'] }}</span>
-                        <span class="text-white mt-1 font-bold">IDR{{ number_format($dt['jumlah'], 0, ',', '.') }}</span>
+                        <span class="text-[#374151] mt-1 font-bold">IDR{{ number_format($dt['jumlah'], 0, ',', '.') }}</span>
                     </div>
-                    <span class="text-white text-xs self-center">
+                    <span class="text-[#374151] text-xs self-center">
                         <small>Diperbaharui pada {{ \Carbon\Carbon::parse($dt['tgl_deposit'])->translatedFormat('j F Y') }}</small>
                     </span>
                 </div>

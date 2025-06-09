@@ -147,34 +147,34 @@
         <table class="details">
             <tr>
                 <td style="border-bottom: 2px solid #000"><strong>No. Kwitansi</strong></td>
-                <td style="border-bottom: 2px solid #000"><strong>: {{ $dataSbs[0]['nomor'] }}</strong></td>
+                <td style="border-bottom: 2px solid #000"><strong>: {{ $dataInvoice[0]['nomor'] }}</strong></td>
                 <td style="border-bottom: 2px solid #000"><strong>Tanggal Jatuh Tempo</strong></td>
-                <td style="border-bottom: 2px solid #000;text-align: right !important"><strong>: {{ Carbon::parse($dataSbs[0]['tgl_invoice'])->addDays(20)->format('d-m-Y') }}</strong></td>
+                <td style="border-bottom: 2px solid #000;text-align: right !important"><strong>: {{ Carbon::parse($dataInvoice[0]['tgl_invoice'])->addDays(20)->format('d-m-Y') }}</strong></td>
             </tr>
         </table>
         <table class="details">
             
             <tr style="height: 50px;">
                 <td style="vertical-align: top"><strong>Terima dari</strong></td>
-                <td>: {{ $dataSbs[0]['nama_customer'] }}</td>
+                <td>: {{ $nama_customer }}</td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
-                <td style="padding-left: 5px">{{ $dataSbs[0]['alamat']  }}</td>
+                <td style="padding-left: 5px">{{ $alamat_customer }}</td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
                 <td><strong>NPWP</strong></td>
-                <td>: {{ $dataSbs[0]['npwp'] }}</td>
+                <td>: {{ $dataInvoice[0]['npwp'] }}</td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
                 <td><strong>Untuk pembayaran</strong></td>
-                <td>: Penyediaan Layanan internet {{ $dataSbs[0]['nama_customer'] }}</td>
+                <td>: Penyediaan Layanan internet {{ $dataInvoice[0]['nama_customer'] }}</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -183,7 +183,7 @@
             <tr>
                 <td></td>
                 <td style="width: 100px">Nomor invoice</td>
-                <td><strong>: {{ $dataSbs[0]['nomor'] }}</strong></td>
+                <td><strong>: {{ $dataInvoice[0]['nomor'] }}</strong></td>
                 <td></td>
             </tr>
             <tr>
@@ -225,7 +225,7 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td><p>Bogor, {{ Carbon::parse($dataSbs[0]['tgl_invoice'])->format('d-m-Y') }}</p></td>
+                    <td><p>Bogor, {{ Carbon::parse($dataInvoice[0]['tgl_invoice'])->format('d-m-Y') }}</p></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -289,24 +289,24 @@
                 <th>JATUH TEMPO</th>
                 <th>NO KONTRAK</th>
             </tr>
-                <td>{{ $dataSbs[0]['nomor'] }}</td>
-                <td>{{ Carbon::parse($dataSbs[0]['tgl_invoice'])->format('d-m-Y') }}</td>
-                <td>{{ Carbon::parse($dataSbs[0]['tgl_invoice'])->addDays(20)->format('d-m-Y') }}</td>
-                <td>{{ $dataSbs[0]['nomor_kontrak'] }}</td>
+                <td>{{ $dataInvoice[0]['nomor'] }}</td>
+                <td>{{ Carbon::parse($dataInvoice[0]['tgl_invoice'])->format('d-m-Y') }}</td>
+                <td>{{ Carbon::parse($dataInvoice[0]['tgl_invoice'])->addDays(20)->format('d-m-Y') }}</td>
+                <td>{{ $dataInvoice[0]['nomor_kontrak'] }}</td>
         </table>
         <table class="invoice-details-2">
             
             <tr>
                 <th>Nama Badan</th>
-                <td colspan="3"><strong> {{ $dataSbs[0]['nama_customer'] }} </strong></td>
+                <td colspan="3"><strong> {{ $nama_customer }} </strong></td>
             </tr>
             <tr>
                 <th>Alamat</th>
-                <td colspan="3">{{ $dataSbs[0]['alamat'] }}</td>
+                <td colspan="3">{{ $alamat_customer }}</td>
             </tr>
             <tr>
                 <th>NPWP</th>
-                <td colspan="3">{{ $dataSbs[0]['npwp'] }}</td>
+                <td colspan="3">{{ $dataInvoice[0]['npwp'] }}</td>
             </tr>
             <tr>
                 <th>Total Tagihan</th>
@@ -327,7 +327,7 @@
                 <th>Prorate</th>
                 <th>Jumlah Biaya (Rp)</th>
             </tr>
-            @foreach ($dataSbs as $key => $data)
+            @foreach ($dataInvoice as $key => $data)
             <tr height="100px" style="vertical-align: top">
                 <td>{{ $key + 1 }}</td>
                 <td style="text-align: left">
@@ -347,7 +347,7 @@
                 <td colspan="5" class="total-amount">DPP Nilai Lain (11/12 x Harga Jual)</td>
                 <td style="border:none;border-left: 2px solid #000;text-align: right"><strong><span>{{number_format($total_dpp_lain, 0, ',', '.')  }}</span></strong></td>
             </tr>
-            @if($dataSbs[0]['ppn'] != 0)
+            @if($dataInvoice[0]['ppn'] != 0)
             <tr style="background-color: #C0C0C0;">
                 <td colspan="5" class="total-amount">PPN 12% (12% x DPP Nilai Lain)</td>
                 <td style="border:none;border-left: 2px solid #000;text-align: right"><strong><span>{{number_format($total_ppn, 0, ',', '.')  }}</span></strong></td>

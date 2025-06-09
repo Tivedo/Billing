@@ -17,9 +17,9 @@ class MidtransService
     public function configureMidtrans()
     {
         
-        $environment = 'sandbox'; // Set to 'production' for production environment
-        $serverKey =  'SB-Mid-server-IDLrh9ymddLTiP82IAJtUKAs';
-        $clientKey = 'SB-Mid-client-roUsax0itR_rQsxo';
+        $environment = env('ENVIRONMENT_MIDTRANS'); // Set to 'production' for production environment
+        $serverKey =  env('SERVER_KEY_MIDTRANS');
+        $clientKey = env('CLIENT_KEY_MIDTRANS');
 
         // Configure the Midtrans SDK
         Config::$serverKey = $serverKey;

@@ -45,7 +45,7 @@ class BillingController extends Controller
         }
         // simpan url file ke dalam database
         $invoice = Invoice::find($request->id);
-        $invoice->url_bukti_potong_ppn = $filePath;
+        $invoice->url_bukti_potong_pph = $filePath;
         $invoice->save();
 
         return back()->with('success', 'File berhasil diupload!')->with('file', $filePath);
