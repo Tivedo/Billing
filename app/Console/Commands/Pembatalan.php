@@ -17,7 +17,7 @@ class Pembatalan extends Command
      *
      * @var string
      */
-    protected $signature = 'app:reminding-payment';
+    protected $signature = 'app:pembatalan';
 
     /**
      * The console command description.
@@ -34,7 +34,7 @@ class Pembatalan extends Command
         $today = Carbon::now()->day; // ambil tanggal hari ini (1-31)
 
         // Cek apakah hari ini tanggal 10, 20, atau 29
-        if (in_array($today, [29])) {
+        // if (in_array($today, [29])) {
             // Cari invoice yang statusnya pending (atau yang mau diingatkan)
             $invoices = Invoice::join('order', 'order.id', '=', 'invoice.order_id')
                 ->join('customer', 'customer.id', '=', 'order.customer_id')
@@ -45,7 +45,7 @@ class Pembatalan extends Command
             foreach ($invoices as $invoice) {
                 // Di sini kamu bisa kirim email, notifikasi, atau lainnya
                 // Misal kirim email reminder
-                Mail::to('abiyyu.umar18@gmail.com')->send(new PembatalanMail($invoice));
+                Mail::to('abiyyu.umar16@gmail.com')->send(new PembatalanMail($invoice));
 
                 Invoice::where('id', $invoice->id)->update(['is_batal' => 1]);
                 Invoice::join('order', 'order.id', '=', 'invoice.order_id')
@@ -55,8 +55,8 @@ class Pembatalan extends Command
             }
 
             $this->info('Reminder pembayaran berhasil dikirim.');
-        } else {
-            $this->info('Hari ini bukan jadwal reminder.');
-        }
+        // } else {
+        //     $this->info('Hari ini bukan jadwal reminder.');
+        // }
     }
 }
