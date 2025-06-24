@@ -4,13 +4,13 @@ namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use App\Models\Invoice;
-use App\Mail\Pembatalan;
+use App\Mail\PembatalanMail;
 use App\Mail\RemindPayment;
 use App\Models\Kontrak;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
-class RemindingPayment extends Command
+class Pembatalan extends Command
 {
     /**
      * The name and signature of the console command.
@@ -45,7 +45,7 @@ class RemindingPayment extends Command
             foreach ($invoices as $invoice) {
                 // Di sini kamu bisa kirim email, notifikasi, atau lainnya
                 // Misal kirim email reminder
-                Mail::to('abiyyu.umar18@gmail.com')->send(new Pembatalan($invoice));
+                Mail::to('abiyyu.umar18@gmail.com')->send(new PembatalanMail($invoice));
 
                 Invoice::where('id', $invoice->id)->update(['is_batal' => 1]);
                 Invoice::join('order', 'order.id', '=', 'invoice.order_id')
