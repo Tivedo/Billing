@@ -22,6 +22,8 @@ class PajakService
 
     public function login()
     {
+        //set limit
+        set_time_limit(3600); // 1 hour
         try {
             $response = Http::asForm()
                 ->withOptions([
@@ -49,6 +51,7 @@ class PajakService
 
     public function validateNpwp(string $token, string $npwp): array
     {
+        set_time_limit(3600); // 1 hour
         try {
             $response = Http::asForm()
                 ->withOptions([
