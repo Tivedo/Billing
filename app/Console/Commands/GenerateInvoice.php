@@ -22,8 +22,8 @@ class GenerateInvoice extends Command
 
     public function handle()
     {
-        $pajakService = new PajakService();
-        $tokenPajak = $pajakService->login();
+        // $pajakService = new PajakService();
+        // $tokenPajak = $pajakService->login();
 
         $start = Carbon::now()->startOfMonth()->toDateString();
         $end   = Carbon::now()->endOfMonth()->toDateString();
