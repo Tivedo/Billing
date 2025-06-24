@@ -89,7 +89,7 @@ class GenerateInvoice extends Command
             $url = asset("invoice/$filename");
             Invoice::where('id', $invoice->id)->update(['url_invoice' => $url]);
             Log::info('Invoice generated: ' . $filename);
-            Mail::to($data[0]['email'])->send(new InvoiceMail($invoice->nomor, $data[0]->nama_customer, $url));
+            Mail::to($data[0]['email'])->send(new InvoiceMail($invoice->nomor, $data[0]->nama_customer, $invoice->tgl_invoice, $url));
         }
     }
     public function convert($number){
