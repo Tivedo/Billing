@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Mail\InvoiceMail;
 use App\Models\InvoiceItem;
 use App\Models\KontrakLayanan;
+use App\Services\PajakService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -21,59 +22,81 @@ class GenerateInvoice extends Command
 
     public function handle()
     {
-        $today = Carbon::now();
+        $pajakService = new PajakService();
+        $tokenPajak = $pajakService->login();
 
-        if ($today->day !== 1) {
-            Log::info('Hari ini bukan tanggal 1, tidak ada invoice yang di-generate.');
-            return;
-        }
+        $start = Carbon::now()->startOfMonth()->toDateString();
+        $end   = Carbon::now()->endOfMonth()->toDateString();
 
         $kontrak = Kontrak::join('order', 'order.id', '=', 'kontrak.order_id')
-        ->leftJoin('invoice', 'invoice.order_id', '=', 'order.id')
-        ->where('kontrak.status', 'active')
-        ->where('invoice.id', null)
-        ->get();
-        Log::info('Jumlah kontrak yang ditemukan: ' . $kontrak->count());
+            ->leftJoin('invoice', function($join) use ($start, $end) {
+                $join->on('invoice.order_id', '=', 'order.id')
+                    ->whereBetween('invoice.tgl_invoice', [$start, $end]);
+            })
+            ->select('kontrak.id', 'kontrak.order_id')
+            ->where('kontrak.status', 'active')
+            ->whereNull('invoice.id')
+            ->get();
+
+        Log::info('Jumlah kontrak: ' . $kontrak->count());
+        $today = Carbon::now();
 
         foreach ($kontrak as $k) {
             $invoice = Invoice::create([
                 'nomor' => 'INV-' . strtoupper(uniqid()),
                 'tgl_invoice' => $today->format('Y-m-d'),
-                'tgl_jatuh_tempo' => $today->addDays(20)->format('Y-m-d'),
+                'tgl_jatuh_tempo' => $today->copy()->addDays(20)->format('Y-m-d'),
                 'type' => 'recurring',
                 'order_id' => $k->order_id,
             ]);
-            $kontrakLayanan = KontrakLayanan::join('layanan', 'layanan.id', '=', 'kontrak_layanan.layanan_id')
-            ->select('kontrak_layanan.*', 'layanan.harga')
-            ->where('kontrak_id', $k->id)->get();
-            foreach ($kontrakLayanan as $kl) {
+
+            $items = KontrakLayanan::leftJoin('layanan', 'layanan.id', '=', 'kontrak_layanan.layanan_id')
+                ->leftJoin('kontrak', 'kontrak.id', '=', 'kontrak_layanan.kontrak_id')
+                ->leftJoin('customer', 'customer.id', '=', 'kontrak.customer_id')
+                ->select('kontrak_layanan.*', 'layanan.harga', 'customer.status_perusahaan')
+                ->where('kontrak.id', $k->id)->get();
+
+            foreach ($items as $i) {
+                $pph = in_array($i->status_perusahaan, [1, 2]) ? $i->harga * 0.02 : 0;
                 InvoiceItem::create([
                     'invoice_id' => $invoice->id,
-                    'layanan_id' => $kl->layanan_id,
-                    'harga' => $kl->harga
-               ]);
+                    'layanan_id' => $i->layanan_id,
+                    'nilai_pokok' => $i->harga,
+                    'ppn' => round($i->harga * 0.11),
+                    'pph' => $pph,
+                    'dpp_lain' => round($i->harga * 11 / 12),
+                    'nilai_bayar' => round($i->harga * 1.11 - $pph),
+                ]);
             }
-            $dataInvoice = InvoiceItem::join('invoice', 'invoice.id', '=', 'invoice_item.invoice_id')
-            ->where('invoice.id', $invoice->id)
-            ->select('invoice_item.*', 'invoice.nomor', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo')
-            ->get()->toArray();
-            $totalTagihan = array_sum(array_column($dataInvoice, 'nilai_bayar'));
-            $terbilang = $this->convert($totalTagihan) . ' Rupiah';
-            $pdf = Pdf::loadView('pdf/invoice-layanan', [
-                'dataSbs' => $dataInvoice,
-                'terbilang' => $terbilang,
-                'total' => $totalTagihan,
-                'total_tagihan' => array_sum(array_column($invoice, 'total_tagihan')),
-                'total_ppn' => array_sum(array_column($invoice, 'ppn')),
+
+            $data = InvoiceItem::getInvoiceDetail($invoice->id);
+            $npwpData = $pajakService->validateNpwp($tokenPajak, $data[0]['npwp']);
+            $total = array_sum(array_column($data, 'nilai_bayar'));
+
+            $pdf = Pdf::loadView('pdf/invoice', [
+                'dataInvoice' => $data,
+                'terbilang' => $this->convert($total) . ' Rupiah',
+                'total' => $total,
+                'total_dpp_lain' => array_sum(array_column($data, 'dpp_lain')),
+                'total_ppn' => array_sum(array_column($data, 'ppn')),
+                'total_tagihan' => array_sum(array_column($data, 'nilai_pokok')),
+                'alamat_customer' => $npwpData['alamat'],
+                'nama_customer' => $npwpData['nama'],
+            ])->setPaper('A4', 'portrait');
+
+            $filename = 'invoice_' . $invoice->nomor . '.pdf';
+            $pdf->save(storage_path("app/public/invoice/$filename"));
+            Invoice::where('id', $invoice->id)->update(['url_invoice' => $filename]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Invoice generated successfully',
+                'data' => [
+                    'invoice_id' => $invoice->id,
+                    'filename' => $filename,
+                ],
             ]);
-            $pdf->setPaper('A4', 'portrait');
-            $pdfPath = storage_path('app/public/invoice' . $invoice[0]->nomor . '.pdf');
-            $pdf->save($pdfPath);
-            // Mail::to($customer->email)->send(new InvoiceMail($invoice));
-
         }
-
-        Log::info('Invoice berhasil di-generate untuk ' . $kontrak->count() . ' kontrak.');
     }
     public function convert($number){
         {
@@ -109,3 +132,4 @@ class GenerateInvoice extends Command
             }
     }
 }
+

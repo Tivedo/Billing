@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reminder Pembayaran</title>
+    <title>Pengingat Pembayaran</title>
 </head>
 <body>
     <h2>Halo {{ $invoice->nama }},</h2>
