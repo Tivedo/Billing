@@ -70,7 +70,7 @@ class GenerateInvoice extends Command
             }
 
             $data = InvoiceItem::getInvoiceDetail($invoice->id);
-            $npwpData = $pajakService->validateNpwp($tokenPajak, $data[0]['npwp']);
+            // $npwpData = $pajakService->validateNpwp($tokenPajak, $data[0]['npwp']);
             $total = array_sum(array_column($data, 'nilai_bayar'));
 
             $pdf = Pdf::loadView('pdf/invoice', [
@@ -80,8 +80,8 @@ class GenerateInvoice extends Command
                 'total_dpp_lain' => array_sum(array_column($data, 'dpp_lain')),
                 'total_ppn' => array_sum(array_column($data, 'ppn')),
                 'total_tagihan' => array_sum(array_column($data, 'nilai_pokok')),
-                'alamat_customer' => $npwpData['alamat'],
-                'nama_customer' => $npwpData['nama'],
+                'alamat_customer' => $npwpData['alamat']?? $data[0]['alamat'],
+                'nama_customer' => $npwpData['nama'] ?? $data[0]['nama'],
             ])->setPaper('A4', 'portrait');
 
             $filename = 'invoice_' . $invoice->nomor . '.pdf';
