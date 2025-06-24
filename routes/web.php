@@ -31,15 +31,15 @@ Route::get('/uploads/{filename}', function ($filename) {
 
     return response()->file($path);
 });
-Route::get('/invoice/{filename}', function ($filename) {
-    $path = storage_path('app/invoice/' . $filename);
+// Route::get('/invoice/{filename}', function ($filename) {
+//     $path = storage_path('app/invoice/' . $filename);
 
-    if (!File::exists($path)) {
-        abort(404);
-    }
+//     if (!File::exists($path)) {
+//         abort(404);
+//     }
 
-    return response()->file($path);
-});
+//     return response()->file($path);
+// });
 // Route::get('/produk/detail', function () {
 //     return view('detail-produk');
 // });
