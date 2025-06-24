@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\BillingController;
-use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PaymentController;
-use Illuminate\Support\Facades\File;
+use App\Http\Controllers\CustomerController;
 
 Route::get('/', [CustomerController::class, 'login'])->name('login');
 Route::get('/register', [CustomerController::class, 'register'])->name('register');
@@ -31,15 +32,18 @@ Route::get('/uploads/{filename}', function ($filename) {
 
     return response()->file($path);
 });
-// Route::get('/invoice/{filename}', function ($filename) {
-//     $path = storage_path('app/invoice/' . $filename);
+Route::get('/invoice/{filename}', function ($filename) {
+    $path = public_path('invoice/' . $filename);
 
-//     if (!File::exists($path)) {
-//         abort(404);
-//     }
+    if (!File::exists($path)) {
+        abort(404, 'Invoice not found.');
+    }
 
-//     return response()->file($path);
-// });
+    $mimeType = File::mimeType($path); // ex: application/pdf
+    return Response::file($path, [
+        'Content-Type' => $mimeType
+    ]);
+});
 // Route::get('/produk/detail', function () {
 //     return view('detail-produk');
 // });
