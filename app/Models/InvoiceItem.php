@@ -24,7 +24,7 @@ class InvoiceItem extends Model
             ->leftJoin('kontrak', 'order.id', '=', 'kontrak.order_id')
             ->leftJoin('customer', 'order.customer_id', '=', 'customer.id')
             ->where('invoice.id', $id)
-            ->select('invoice_item.*', 'invoice.nomor', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'customer.alamat', 'customer.nama as nama_customer', 'customer.npwp', 'kontrak.no_kontrak as nomor_kontrak', 'layanan.nama as nama_layanan', 'customer.email'
+            ->select('invoice_item.*', 'invoice.nomor', 'invoice.tgl_invoice', 'invoice.tgl_jatuh_tempo', 'customer.alamat', 'customer.nama as nama_customer', 'customer.npwp', 'kontrak.no_kontrak as nomor_kontrak', 'layanan.nama as nama_layanan', 'customer.email',
             DB::raw("
                     CONCAT(
                         DATE_FORMAT(invoice.tgl_invoice, '%e'),
