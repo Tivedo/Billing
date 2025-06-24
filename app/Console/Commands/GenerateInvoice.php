@@ -70,6 +70,7 @@ class GenerateInvoice extends Command
             }
 
             $data = InvoiceItem::getInvoiceDetail($invoice->id);
+            Log::info('Data invoice: ' . json_encode($data));
             // $npwpData = $pajakService->validateNpwp($tokenPajak, $data[0]['npwp']);
             $total = array_sum(array_column($data, 'nilai_bayar'));
 
