@@ -85,7 +85,7 @@ class GenerateInvoice extends Command
             ])->setPaper('A4', 'portrait');
 
             $filename = 'invoice_' . $invoice->nomor . '.pdf';
-            $pdf->save(storage_path("app/public/invoice/$filename"));
+            $pdf->save(public_path("invoice/$filename"));
             Invoice::where('id', $invoice->id)->update(['url_invoice' => $filename]);
 
             return response()->json([
