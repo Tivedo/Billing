@@ -81,7 +81,7 @@ class GenerateInvoice extends Command
                 'total_ppn' => array_sum(array_column($data, 'ppn')),
                 'total_tagihan' => array_sum(array_column($data, 'nilai_pokok')),
                 'alamat_customer' => $npwpData['alamat']?? $data[0]['alamat'],
-                'nama_customer' => $npwpData['nama'] ?? $data[0]['nama'],
+                'nama_customer' => $npwpData['nama'] ?? $data[0]['nama_customer'],
             ])->setPaper('A4', 'portrait');
 
             $filename = 'invoice_' . $invoice->nomor . '.pdf';
