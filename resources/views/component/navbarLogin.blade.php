@@ -40,7 +40,7 @@
           <!-- Profile dropdown -->
           <div class="relative ml-3">
             <div>
-              <a href="#" class="rounded-md bg-blue-500 px-3 py-2 text-sm font-medium text-white" aria-current="page">Logout</a>
+              {{-- <a href="#" class="rounded-md bg-blue-500 px-3 py-2 text-sm font-medium text-white" aria-current="page">Logout</a> --}}
 
             </div>
   

@@ -231,7 +231,7 @@
                                                 Unduh File
                                             </a>
                                             @else
-                                            <a href="{{ ENV('APP_URL').'/faktur/'.$d['url_faktur'] }}"
+                                            <a href="{{ $d['url_faktur'] }}"
                                                 class="bg-[#3399FE] text-white font-medium py-2 px-5 rounded-lg shadow-md hover:bg-blue-600 transition flex items-center gap-2 w-fit"
                                                 style="border: none;border-radius: 10px;background-color: #8158F4" target="_blank">
                                                 <i class="bi bi-download me-2 "></i>
@@ -297,7 +297,7 @@
                                                 Unduh File
                                             </a>
                                             @else
-                                            <a href="{{ ENV('APP_URL').'/invoice/'.$d['url_invoice'] }}"
+                                            <a href="{{ $d['url_invoice'] }}"
                                                 class="bg-[#3399FE] text-white font-medium py-2 px-5 rounded-lg shadow-md hover:bg-blue-600 transition flex items-center gap-2 w-fit"
                                                 style="border: none;border-radius: 10px;background-color: #8158F4" target="_blank">
                                                 <i class="bi bi-download me-2 "></i>

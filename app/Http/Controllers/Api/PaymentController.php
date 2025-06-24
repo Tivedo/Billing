@@ -14,6 +14,7 @@ class PaymentController extends Controller
         $notif = $request->all();
 
         $orderId = $notif['order_id'];
+        Log::info('Received notification for order ID: ' . $orderId);
         $invoiceId = explode('-', $orderId)[2];
         Log::info('Invoice ID: ' . $invoiceId);
 
