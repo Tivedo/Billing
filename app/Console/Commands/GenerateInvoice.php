@@ -86,16 +86,9 @@ class GenerateInvoice extends Command
 
             $filename = 'invoice_' . $invoice->nomor . '.pdf';
             $pdf->save(public_path("invoice/$filename"));
-            Invoice::where('id', $invoice->id)->update(['url_invoice' => $filename]);
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Invoice generated successfully',
-                'data' => [
-                    'invoice_id' => $invoice->id,
-                    'filename' => $filename,
-                ],
-            ]);
+            $url = asset("invoice/$filename");
+            Invoice::where('id', $invoice->id)->update(['url_invoice' => $url]);
+            Log::info('Invoice generated: ' . $filename);
         }
     }
     public function convert($number){
