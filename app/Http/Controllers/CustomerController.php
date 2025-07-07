@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Api\CustomerController as ApiCustomerController;
 use App\Models\customer;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Http\Controllers\Api\CustomerController as ApiCustomerController;
 
 class CustomerController extends Controller
 {
@@ -50,6 +51,10 @@ class CustomerController extends Controller
         if ($responseData['message'] == 'Login Success') {
             return redirect()->route('billing')->with('success', 'Login berhasil');
         } else {
+            Log::error('Login failed', [
+                'username' => $request->username,
+                'error' => $responseData['message'] ?? 'Unknown error'
+            ]);
             return redirect()->route('login')->with('error', $responseData['message'] ?? 'Login gagal');
         }
     
