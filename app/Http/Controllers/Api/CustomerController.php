@@ -52,9 +52,7 @@ class CustomerController extends Controller
         $customer = Customer::where('username', $request->username)->first();
         if ($customer) {
             if (password_verify($request->password, $customer->password)) {
-                // Generate JWT token
                 try {
-                    // $token = JWTAuth::fromUser($customer);
                     $token = JWTAuth::attempt($request->only('username', 'password'));
                     Session::put('jwt_token', $token);
                     return response()->json([

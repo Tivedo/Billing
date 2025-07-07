@@ -46,5 +46,12 @@
             password.type = 'password'; // ubah type menjadi password
         }
     });
+    document.addEventListener("DOMContentLoaded", function () {
+        @if($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error('{{ $error }}');
+            @endforeach
+        @endif
+    });
 </script>
 </html>
