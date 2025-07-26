@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BillingController as ApiBillingController;
 
 class BillingController extends Controller
@@ -41,13 +42,25 @@ class BillingController extends Controller
 
         // Simpan file ke dalam storage
         if ($request->file('pph')) {
-            $filePath = $request->file('pph')->store('uploads', 'public');
-        }
-        // simpan url file ke dalam database
-        $invoice = Invoice::find($request->id);
-        $invoice->url_bukti_potong_pph = $filePath;
-        $invoice->save();
+            // 1. Ambil objek file dari request
+            $file = $request->file('pph');
 
-        return back()->with('success', 'File berhasil diupload!')->with('file', $filePath);
+            // 2. Buat nama file yang unik untuk menghindari nama yang sama
+            // Contoh: invoice_62f1b4e7a8e1b.pdf
+            $filename = 'buktiPotong_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            // 3. Pindahkan file ke folder public/bupot
+            $file->move(public_path('bupot'), $filename);
+
+            // 4. Buat URL lengkap menggunakan helper asset()
+            $fileUrl = asset('invoice/' . $filename);
+
+            // 5. Simpan URL lengkap ke database
+            $invoice = Invoice::find($request->id);
+            $invoice->url_bukti_potong_pph = $fileUrl;
+            $invoice->save();
+        }
+
+        return back()->with('success', 'File berhasil diupload!')->with('file', $fileUrl);
     }
 }
