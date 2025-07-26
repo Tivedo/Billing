@@ -53,7 +53,7 @@ class BillingController extends Controller
             $file->move(public_path('bupot'), $filename);
 
             // 4. Buat URL lengkap menggunakan helper asset()
-            $fileUrl = asset('invoice/' . $filename);
+            $fileUrl = asset('bupot/' . $filename);
 
             // 5. Simpan URL lengkap ke database
             $invoice = Invoice::find($request->id);
