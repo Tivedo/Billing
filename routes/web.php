@@ -56,6 +56,18 @@ Route::get('/bupot/{filename}', function ($filename) {
         'Content-Type' => $mimeType
     ]);
 });
+Route::get('/faktur/{filename}', function ($filename) {
+    $path = public_path('faktur/' . $filename);
+
+    if (!File::exists($path)) {
+        abort(404, 'Faktur not found.');
+    }
+
+    $mimeType = File::mimeType($path); // ex: application/pdf
+    return Response::file($path, [
+        'Content-Type' => $mimeType
+    ]);
+});
 // Route::get('/produk/detail', function () {
 //     return view('detail-produk');
 // });
