@@ -224,7 +224,7 @@
                                             @if ($d['url_faktur'] == null)
                                             Faktur belum tersedia
                                             @elseif ($d['url_faktur'] != null)
-                                            <a href="{{ route('download.tanda.terima', ['filename' => $d['url_faktur']]) }}"
+                                            <a href="{{ $d['url_faktur'] }}" target="_blank"
                                                 class="btn btn-primary ps-5 pe-5"
                                                 style="border: none;border-radius: 10px;background-color: #8158F4">
                                                 <i class="bi bi-download me-2 "></i>
