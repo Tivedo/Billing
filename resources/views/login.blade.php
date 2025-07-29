@@ -31,6 +31,7 @@
         <p class="text-[#1E3A8A] mt-4 text-center">Belum punya akun? <a href="register" class="text-[#0EA5E9] hover:underline ml-1">Registrasi</a></p>
     </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     const showHide = document.getElementById('showHide');
 
