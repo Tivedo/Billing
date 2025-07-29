@@ -473,12 +473,6 @@
             @endforeach
         @endif
         var token = '{{ Session::get('jwt_token') }}';
-            const footerDisplay = document.getElementById('footer');
-            if (token) {
-                footerDisplay.classList.add('hidden');
-            } else {
-                footerDisplay.classList.add('hidden');
-            }
         });
 </script>
 <script>
