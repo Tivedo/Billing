@@ -14,6 +14,9 @@ class BillingController extends Controller
     public function index()
     {
         $token = Session::get('jwt_token');
+        if (!$token) {
+            return redirect()->route('login')->with('error', 'You must be logged in to access this page.');
+        }
         $payload = JWTAuth::setToken($token)->getPayload();
         $customerId = $payload->get('sub');
         $response = (new ApiBillingController)->getInvoice($customerId);
