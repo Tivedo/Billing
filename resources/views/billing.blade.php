@@ -456,15 +456,6 @@
 </script>
 
 <script>
-    document.getElementById('uploadPpnFile').addEventListener('change', function(event) {
-            var fileName = event.target.files[0].name;
-            var uploadButton = document.getElementById('uploadPpnButton');
-            uploadButton.innerHTML = '<i class="bi bi-file-earmark-arrow-up-fill"></i> ' + fileName;
-        });
-
-        document.getElementById('uploadPpnButton').addEventListener('click', function() {
-            document.getElementById('uploadPpnFile').click();
-        });
         document.getElementById('uploadPphFile').addEventListener('change', function(event) {
             var fileName = event.target.files[0].name;
             var uploadButton = document.getElementById('uploadPphButton');

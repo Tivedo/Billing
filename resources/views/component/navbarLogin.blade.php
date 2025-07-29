@@ -70,7 +70,6 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
     const userMenuButton = document.getElementById('user-menu-button');
-    const userMenu = userMenuButton.nextElementSibling;
 
     // Function to toggle user menu visibility
     const toggleUserMenu = () => {
