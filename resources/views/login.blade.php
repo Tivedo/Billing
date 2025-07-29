@@ -5,9 +5,11 @@
     <title>Login Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <style>
     </style>
 </head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <body class="flex items-center justify-center min-h-screen bg-[#E6F0FA]">
     <div class="bg-[#F9FBFD] bg-opacity-50 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 class="text-2xl font-bold text-[#1E3A8A] mb-6 text-center">Masuk</h2>

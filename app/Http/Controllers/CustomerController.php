@@ -55,7 +55,7 @@ class CustomerController extends Controller
                 'username' => $request->username,
                 'error' => $responseData['message'] ?? 'Unknown error'
             ]);
-            return redirect()->route('login')->with('error', $responseData['message'] ?? 'Login gagal');
+            return redirect()->back()->with('error', 'Login gagal')->withInput();
         }
     
     }
