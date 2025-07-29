@@ -66,28 +66,4 @@
         <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Billing </a>
       </div>
     </div>
-  </nav>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const userMenuButton = document.getElementById('user-menu-button');
-
-    // Function to toggle user menu visibility
-    const toggleUserMenu = () => {
-        const isExpanded = userMenuButton.getAttribute('aria-expanded') === 'true';
-        userMenuButton.setAttribute('aria-expanded', !isExpanded);
-        userMenu.classList.toggle('hidden');
-    };
-
-    // Add event listener to user menu button
-    userMenuButton.addEventListener('click', toggleUserMenu);
-
-    // Close menu if clicked outside
-    document.addEventListener('click', (event) => {
-        if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
-            userMenu.classList.add('hidden');
-            userMenuButton.setAttribute('aria-expanded', 'false');
-        }
-    });
-});
-  </script>
-  
+  </nav>  
