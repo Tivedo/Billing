@@ -290,7 +290,7 @@
                                             @if ($d['url_invoice'] == null && $d['url_tanda_terima'] == null)
                                             Invoice belum tersedia
                                             @elseif ($d['url_invoice'] != null)
-                                            <a href="{{ route('download.tanda.terima', ['filename' => $d['url_tanda_terima']]) }}"
+                                            <a href="{{ $d['url_invoice'] }}"
                                                 class="bg-[#3399FE] text-white font-medium py-2 px-5 rounded-lg shadow-md hover:bg-blue-600 transition flex items-center gap-2 w-fit"
                                                 style="border: none;border-radius: 10px;background-color: #8158F4">
                                                 <i class="bi bi-download me-2 "></i>
